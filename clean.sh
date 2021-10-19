@@ -63,13 +63,13 @@ function clean(){
 	files=`find $dir -type f -mtime +$cleanTime`
 	OLDIFS=$IFS         #备份原for循环的分隔符
 	IFS=$'\n'           #将for循环的隔符替换为换行
-	for i in "$files"; do
+	for i in `echo "$files"`; do
 		[[ "$i" =~ "$rmTag" ]] && mv_to_garbage "$i"	#将此文件移动到废纸篓中
 	done
 
 	#删除空目录
 	emptyDirs=`find "$dir" -empty -type d -mtime +$cleanTime`
-	for i in "$emptyDirs"; do
+	for i in `echo "$emptyDirs"`; do
                 [[ "$i" =~ "$rmTag" ]] && rmdir "$i"
         done
 	IFS="$OLDIFS"       #恢复for循环原来的分隔符
@@ -80,7 +80,7 @@ function cleanGarbage(){
         files=`find $dirGarbage -type f -mtime +$rmTime`
 	OLDIFS=$IFS         #备份原for循环的分隔符
         IFS=$'\n'            #将for循环的隔符替换为换行
-        for i in "$files"; do
+        for i in `echo "$files"`; do
                [[ "$i" =~ "$dirGarbage" ]] && rm -f "$i"         #删除此目录(谨慎操作!!!)
         done
 	IFS="$OLDIFS"       #恢复for循环原来的分隔符
